@@ -1,0 +1,3 @@
+# Configuration privée
+server/config.private.js 
+client/scripts/config.private.js
