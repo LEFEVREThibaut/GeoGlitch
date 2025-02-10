@@ -1,4 +1,4 @@
-let socket = new WebSocket('ws://localhost:3000'); // TODO: changer en fonction de l'environnement
+let socket = new WebSocket(`${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}`);
 const videoContainer = document.getElementById('videoContainer');
 const appContainer = document.getElementById('appContainer');
 const loginButton = document.getElementById('loginButton');

@@ -18,64 +18,6 @@ module.exports = (wss) => {
                 });
             } 
 
-            // gestion des rooms
-            else if (data.type === 'createRoom') {
-                console.log(`Création de la salle ${data.roomId} par ${data.userId}`);
-                const roomId = data.roomId;
-                rooms[roomId] = rooms[roomId] || [];
-                rooms[roomId].push(data.userId);
-                users[data.userId].inRoom = true;
-    
-                wss.clients.forEach((client) => {
-                    if (client.readyState === WebSocket.OPEN) {
-                        client.send(JSON.stringify({ type: 'roomUpdate', users: data.users }));
-                    }
-                });
-            } else if (data.type === 'joinRoom') {
-                console.log(`${data.userId} rejoint la salle ${data.roomId}`);
-                const roomId = data.roomId;
-                rooms[roomId] = rooms[roomId] || [];
-                if (!rooms[roomId].includes(data.userId)) {
-                    rooms[roomId].push(data.userId);
-                }
-                users[data.userId].inRoom = true;
-    
-                wss.clients.forEach((client) => {
-                    if (client.readyState === WebSocket.OPEN) {
-                        client.send(JSON.stringify({ type: 'roomUpdate', users }));
-                    }
-                });
-                window.startCall = function (targetUserId) {
-                    console.log(`Tentative d'appel à ${targetUserId}`);
-                    if (!socket || socket.readyState !== WebSocket.OPEN) {
-                        console.error('WebSocket non connecté');
-                        return;
-                    }
-                    if (!userId) {
-                        console.error('userId non défini');
-                        return;
-                    }
-                    socket.send(JSON.stringify({
-                        type: 'callRequest',
-                        userId,
-                        targetUserId
-                    }));
-                    console.log('Message d\'appel envoyé');
-                };
-            } else if (data.type === 'leaveRoom') {
-                console.log(`${data.userId} quitte la salle ${data.roomId}`);
-                const roomId = data.roomId;
-                rooms[roomId] = rooms[roomId] || [];
-                rooms[roomId] = rooms[roomId].filter((userId) => userId !== data.userId);
-                users[data.userId].inRoom = false;
-    
-                wss.clients.forEach((client) => {
-                    if (client.readyState === WebSocket.OPEN) {
-                        client.send(JSON.stringify({ type: 'roomUpdate', roomId, users: rooms[roomId] }));
-                    }
-                });
-            } 
-
             // gestion des calls
             else if (data.type === 'callRequest') {
                 console.log(`Appel de ${data.userId} à ${data.targetUserId}`);

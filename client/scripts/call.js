@@ -6,48 +6,6 @@ function startCall(targetUserId) {
     }));
 }
 
-function endCall() {
-    try {
-        // Notifier le serveur
-        socket.send(JSON.stringify({
-            type: 'userDisconnected',
-            userId
-        }));
-    
-        // Stop video streams
-        if (localStream) {
-            localStream.getTracks().forEach(track => track.stop());
-            localStream = null;
-        }
-    
-        // Close all peer connections
-        Object.values(peerConnections).forEach(connection => {
-            if (connection) {
-                connection.close();
-            }
-        });
-        peerConnections = {};
-    
-        // Clean up remote streams
-        remoteStreams = {};
-    
-        // Clear video container
-        videoContainer.innerHTML = '';
-    
-        // Reset states
-        inCall = false;
-        callPending = false;
-
-        // Mettre à jour tous les popups pour permettre de nouveaux appels
-        if (typeof updateMap === 'function') {
-            // Si updateMap est disponible, on met à jour la carte
-            updateMap(users);
-        }
-        
-    } catch (error) {
-        console.error('Erreur dans endCall:', error);
-    }
-}
 
 function handleCallRequest(callerId) {
     if (inCall) {
@@ -94,7 +52,7 @@ function handleCallRequest(callerId) {
                 endCall();
             } else {
                 console.error('endCall n\'est pas définie comme une fonction');
-            }            
+            }
             socket.send(JSON.stringify({
                 type: 'userDisconnected',
                 userId: userId
@@ -155,7 +113,7 @@ function startVideoCall(targetUserId) {
             const hangupButton = document.createElement('button');
             hangupButton.textContent = 'Raccrocher';
             hangupButton.className = 'hangup-button';
-            
+
 
             videoContainer.appendChild(localVideoContainer);
             videoContainer.appendChild(hangupButton);
@@ -170,7 +128,7 @@ function startVideoCall(targetUserId) {
                 }
                 console.log('Envoi du message de déconnexion');
                 socket.send(JSON.stringify({
-                    type: 'userDisconnected', 
+                    type: 'userDisconnected',
                     userId: userId
                 }));
             };
@@ -251,16 +209,14 @@ window.addEventListener('beforeunload', () => {
     }
 });
 
-// ... existing code ...
-
-window.endCall = function() {
+window.endCall = function () {
     try {
         // Notifier le serveur
         socket.send(JSON.stringify({
             type: 'userDisconnected',
             userId
         }));
-    
+
         // Stop tous les flux vidéo
         if (localStream) {
             localStream.getTracks().forEach(track => {
@@ -269,7 +225,7 @@ window.endCall = function() {
             });
             localStream = null;
         }
-    
+
         // Fermer toutes les connexions peer
         Object.values(peerConnections).forEach(connection => {
             if (connection) {
@@ -284,7 +240,7 @@ window.endCall = function() {
             }
         });
         peerConnections = {};
-    
+
         // Nettoyer les flux distants
         Object.values(remoteStreams).forEach(stream => {
             if (stream) {
@@ -295,10 +251,10 @@ window.endCall = function() {
             }
         });
         remoteStreams = {};
-    
+
         // Nettoyer l'interface
         videoContainer.innerHTML = '';
-    
+
         // Réinitialiser les états
         inCall = false;
         callPending = false;
@@ -307,7 +263,7 @@ window.endCall = function() {
         if (typeof updateMap === 'function') {
             updateMap(users);
         }
-        
+
     } catch (error) {
         console.error('Erreur dans endCall:', error);
     }
@@ -315,7 +271,7 @@ window.endCall = function() {
 
 function handleUserDisconnected(disconnectedUserId) {
     console.log('Gestion de la déconnexion pour:', disconnectedUserId);
-    
+
     // Afficher l'alerte
     alert(`${disconnectedUserId.split('_')[1]} a raccroché`);
 
@@ -352,7 +308,7 @@ function handleUserDisconnected(disconnectedUserId) {
 
     // Nettoyer l'interface
     videoContainer.innerHTML = '';
-    
+
     // Réinitialiser les états
     inCall = false;
     callPending = false;
@@ -362,5 +318,3 @@ function handleUserDisconnected(disconnectedUserId) {
         updateMap(users);
     }
 }
-
-// ... existing code ...
