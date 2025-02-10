@@ -3,6 +3,14 @@
 ## Description
 Application web permettant aux utilisateurs de se géolocaliser sur une carte en temps réel et d'établir des appels vidéo entre utilisateurs.
 
+## Démonstration de l'application
+
+![Démonstration](./documentation/demo.mov)
+
+## Lien de l'application
+
+[GeoGlitch](https://thibaut.lefevre.caen.mds-project.fr/)
+
 ## Architecture Technique
 
 ### Frontend
@@ -34,6 +42,10 @@ Application web permettant aux utilisateurs de se géolocaliser sur une carte en
 
 ## Dépendances
 
+### Frontend
+- Mapbox GL JS
+- Aucune autre dépendance externe (vanilla JavaScript)
+
 ### Backend
 ```json
 {
@@ -41,40 +53,16 @@ Application web permettant aux utilisateurs de se géolocaliser sur une carte en
    "ws": "^8.18.0"
 }
 ```
-
-
-### Frontend
-- Mapbox GL JS
-- Aucune autre dépendance externe (vanilla JavaScript)
-
 ## Installation
 
-1. Cloner le repository :
+1. Sur un VPS : Suivre les instructions présentes dans la [documentation](./documentation//deploiement-vps.md)
 
-```bash
-git clone [URL_DU_REPO]
-cd [NOM_DU_PROJET]
-```
-
-
-2. Installer les dépendances :
-```bash
-npm install
-```
-
-
-3. Configurer les variables d'environnement :
-   - Créer un fichier `.env` à la racine du projet
-   - Ajouter votre token Mapbox :
-
-```plaintext
-MAPBOX_TOKEN=votre_token_mapbox
-```
-
+2. En local : 
+Faire un git clone du projet, ajouter les fichiers `server/config.private.js` et `client/scripts/config.private.js` à partir des fichiers templates correspondants
 
 ## Lancement de l'Application
 
-1. Démarrer le serveur :
+1. Démarrer le serveur en local :
 
 ```bash
 npm start
@@ -187,34 +175,18 @@ sequenceDiagram
     end
 ```
 
-
-## Déploiement VPS
-
-
-
-
-## Configuration
-
-1. Copiez le fichier `server/config.template.js` vers `server/config.private.js`
-2. Modifiez `config.private.js` avec vos clés d'API et configurations
-3. Ne committez jamais `config.private.js`
-
-Note : Le fichier de configuration est utilisé à la fois par le serveur et le client.
-
-Les variables de configuration disponibles sont :
-- `PORT` : Port du serveur (défaut: 3000)
-- `MAPBOX_TOKEN` : Votre token Mapbox
-- `STUN_SERVERS` : Configuration des serveurs STUN/TURN
-
-
-
 ## Guide Utilisateur
 
 ### Premier Démarrage
-1. À l'ouverture de l'application, votre navigateur vous demandera l'autorisation d'accéder à :
+1. À l'ouverture de l'application, puis en fonction de vos actions, votre navigateur vous demandera l'autorisation d'accéder à :
    - Votre position géographique
    - Votre caméra et microphone (pour les appels)
    - Les données de l'accéléromètre (sur mobile)
+![Autorisation Position](./documentation/autorisation-position.png)
+![Autorisation Video](./documentation/autorisation-visio.png)
+
+Il vous demandera de choisir un nom d'utilisateur.
+![Nom utilisateur](./documentation/username.png)
 
 ### Navigation et Interaction
 - **Déplacement sur la carte** : 
@@ -223,9 +195,14 @@ Les variables de configuration disponibles sont :
 
 - **Appels Audio/Vidéo** :
   1. Cliquez sur le bouton "Appeler" sur le point d'un utilisateur
+![Appel](./documentation/appeler.png)
   2. L'autre utilisateur reçoit une notification
-  3. Une fois accepté, la vidéo s'affiche dans une fenêtre flottante
+![Appel modal](./documentation/modal-call.png)
+  3. Une fois accepté, la vidéo s'affiche en dessous de la carte et la modal se met à jour
+![Appel accepte](./documentation/appel-en-cours.png)
   4. Contrôles disponibles : raccrocher
+![Appel accepte](./documentation/raccrocher.png)
+
 
 ### Fonctionnalités Mobile
   - Affiche les mouvements de l'appareil en temps réel ainsi que son altitude
@@ -238,8 +215,6 @@ Les variables de configuration disponibles sont :
   - Edge : support complet
 
 ## Limitations Connues
-- Pas de persistance des données
-- Gestion de la mémoire à optimiser pour grand nombre d'utilisateurs
 - Support navigateur limité pour certaines fonctionnalités
 
 ### Résolution des Problèmes
@@ -257,13 +232,3 @@ Les variables de configuration disponibles sont :
    - Vérifiez votre connexion internet
    - Fermez les autres onglets consommateurs
    - Utilisez un réseau plus stable
-
-
-
-## Contribution
-Pour faire une contribution sur le projet, merci de suivre les étapes :
-1. Fork du projet
-2. Création d'une branche (`git checkout -b feature/AmazingFeature`)
-3. Commit des changements (`git commit -m 'Add some AmazingFeature'`)
-4. Push vers la branche (`git push origin feature/AmazingFeature`)
-5. Ouverture d'une Pull Request

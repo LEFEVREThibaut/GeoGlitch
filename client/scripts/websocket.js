@@ -1,4 +1,4 @@
-const socket = new WebSocket('ws://localhost:3000');
+let socket = new WebSocket('ws://localhost:3000'); // TODO: changer en fonction de l'environnement
 const videoContainer = document.getElementById('videoContainer');
 const appContainer = document.getElementById('appContainer');
 const loginButton = document.getElementById('loginButton');
@@ -50,7 +50,6 @@ function initWebSocket() {
             console.log('Tentative de reconnexion...');
             reconnectAttempts++;
             setTimeout(() => {
-                socket = new WebSocket('ws://localhost:3000');
                 initWebSocket();
             }, 1000 * reconnectAttempts);
         }
