@@ -201,7 +201,7 @@ Il vous demandera de choisir un nom d'utilisateur.
   3. Une fois accepté, la vidéo s'affiche en dessous de la carte et la modal se met à jour
 ![Appel accepte](./documentation/appel-en-cours.png)
   4. Contrôles disponibles : raccrocher
-![Appel accepte](./documentation/raccrocher.png)
+![Appel accepte](./documentation/reccrocher.png)
 
 
 ### Fonctionnalités Mobile
