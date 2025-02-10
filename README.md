@@ -5,7 +5,7 @@ Application web permettant aux utilisateurs de se géolocaliser sur une carte en
 
 ## Démonstration de l'application
 
-![Démonstration](./documentation/demo.mov)
+![Démonstration](./documentation/demo.mp4)
 
 ## Lien de l'application
 
